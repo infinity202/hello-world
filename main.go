@@ -10,22 +10,47 @@ import (
 
 var cfg *config.Config
 
-func main() {
+func setupServer() *http.Server {
 	// Load configuration
 	cfg = config.LoadConfig()
 
+	// Create new mux
+	mux := http.NewServeMux()
+
 	// Handle static files
 	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	// Handle routes
-	http.HandleFunc("/", handleHome)
-	http.HandleFunc("/about", handleAbout)
-	http.HandleFunc("/ping", ping)
+	mux.HandleFunc("/", handleHome)
+	mux.HandleFunc("/about", handleAbout)
+	mux.HandleFunc("/ping", ping)
+
+	// Create server with custom 404 handler
+	server := &http.Server{
+		Addr: ":" + cfg.AppPort,
+		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// Check if the path exists in mux
+			h, pattern := mux.Handler(r)
+			if pattern == "/" && r.URL.Path != "/" {
+				logIncomingRequest(r)
+				w.WriteHeader(http.StatusNotFound)
+				w.Write([]byte("404"))
+				return
+			}
+			h.ServeHTTP(w, r)
+		}),
+	}
+
+	return server
+}
+
+func main() {
+	server := setupServer()
 
 	log.Printf("Starting %s version %s on http://localhost:%s\n",
 		cfg.AppName, cfg.AppVersion, cfg.AppPort)
-	log.Fatal(http.ListenAndServe(":"+cfg.AppPort, nil))
+	log.Fatal(server.ListenAndServe())
 }
 
 func handleHome(w http.ResponseWriter, r *http.Request) {

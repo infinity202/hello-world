@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - {{.AppName}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+    </nav>
+    <div class="container">
+        <div class="content">
+            <h1>{{.Title}}</h1>
+            <p>{{.Message}}</p>
+            <div class="app-info">
+                <p>Application: {{.AppName}}</p>
+                <p>Version: {{.AppVersion}}</p>
+                <p>Environment: {{.Environment}}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

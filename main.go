@@ -8,6 +8,7 @@ import (
 	"net/http"
 )
 
+// config server
 var cfg *config.Config
 
 func setupServer() *http.Server {

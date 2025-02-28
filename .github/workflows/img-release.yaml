@@ -28,7 +28,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/example-app
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/hello-world
           # The "type=semver" option interprets the Git tag as a semantic version.
           # The pattern "{{version}}" uses the tag value as-is (e.g. "1.0.0").
           tags: |

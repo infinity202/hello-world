@@ -8,7 +8,6 @@ import (
 	"net/http"
 )
 
-// config server, just for trigger pipeline purposes
 var cfg *config.Config
 
 func setupServer() *http.Server {

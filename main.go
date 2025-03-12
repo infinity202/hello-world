@@ -67,8 +67,8 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 
 	tmpl := template.Must(template.ParseFiles("templates/home.html"))
 	data := PageData{
-		Title:       "Welcome",
-		Message:     "Hello, World!",
+		Title:       "Welcome dear visitor",
+		Message:     "Hello everyone!",
 		AppName:     cfg.AppName,
 		AppVersion:  cfg.AppVersion,
 		Environment: cfg.AppEnv,
